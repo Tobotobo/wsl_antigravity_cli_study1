@@ -67,6 +67,7 @@ mkdir -p /etc/sysctl.d
 tee /etc/sysctl.d/99-ping.conf >/dev/null <<'EOF'
 net.ipv4.ping_group_range = 0 2147483647
 EOF
+sysctl --system
 
 echo "git をインストール中..."
 dnf install -y git

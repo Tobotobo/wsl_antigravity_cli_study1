@@ -27,4 +27,3 @@ wsl -d AlmaLinux-10-Antigravity
 ```
 wsl --unregister AlmaLinux-10-Antigravity
 ```
-
