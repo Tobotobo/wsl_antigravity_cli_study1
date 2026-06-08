@@ -19,6 +19,7 @@ generateResolvConf = false
 # ※併せて Windows 側の PATH 追加を無効にしないと警告が大量に表示されるので注意
 [automount]
 enabled = false
+mountFsTab = true
 
 # Windows 側の PATH を WSL 側へ追加しない
 [interop]
@@ -49,9 +50,9 @@ localectl set-locale LANG=ja_JP.UTF-8
 echo "ユーザー dev を作成中..."
 useradd -m -s /bin/bash dev
 
-echo "ユーザー dev に sudo 権限を設定中..."
-echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev
-chmod 0440 /etc/sudoers.d/dev
+# echo "ユーザー dev に sudo 権限を設定中..."
+# echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev
+# chmod 0440 /etc/sudoers.d/dev
 
 echo "WSL のデフォルトログインユーザーをユーザー dev に設定中..."
 cat << 'EOF' >> /etc/wsl.conf
@@ -72,6 +73,20 @@ sysctl --system
 echo "git をインストール中..."
 dnf install -y git
 git --version
+
+echo "tmux 3.6b をインストール中..."
+# とほほのtmux入門
+# https://www.tohoho-web.com/ex/tmux.html
+dnf -y install gcc libevent-devel ncurses-devel automake byacc
+(
+cd /tmp
+curl -kLO https://github.com/tmux/tmux/releases/download/3.6b/tmux-3.6b.tar.gz
+tar zxvf ./tmux-3.6b.tar.gz
+cd tmux-3.6b
+./configure
+make
+make install
+)
 
 echo "Antigravity CLI をインストール中..."
 sudo -iu dev bash -lc '
